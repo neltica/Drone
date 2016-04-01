@@ -1,0 +1,99 @@
+package com.example.controller3;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.View.OnTouchListener;
+import android.view.ViewGroup.LayoutParams;
+import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.ScrollView;
+
+public class PIDSettingActivity extends Activity implements OnTouchListener {
+
+	
+	private LinearLayout linearLayout,subLinearLayout;
+	private ScrollView scrollView;
+	private CustomEditText p1,i1,d1,p2,i2,d2,p3,i3,d3,p4,i4,d4;
+	private Button setButton,getButton;
+	
+	@Override
+	protected void onStop() {
+		// TODO Auto-generated method stub
+		super.onStop();
+	}
+
+	@Override
+	public boolean onTouch(View v, MotionEvent event) {
+		// TODO Auto-generated method stub
+		
+		if(event.getAction()==MotionEvent.ACTION_UP)
+		{
+			if(v.getId()==setButton.getId())
+			{
+				
+			}
+			else if(v.getId()==getButton.getId())
+			{
+				
+			}
+		}
+		return false;
+	}
+
+	@Override
+	protected void onCreate(Bundle savedInstanceState) {
+		// TODO Auto-generated method stub
+		super.onCreate(savedInstanceState);
+		
+		setContentView(R.layout.activity_pid);
+
+		linearLayout=(LinearLayout)findViewById(R.id.LinearLayout1);
+		setButton=new Button(this);
+		setButton.setText("Set PID");
+		linearLayout.addView(setButton);
+		getButton=new Button(this);
+		getButton.setText("Get PID");
+		linearLayout.addView(getButton);
+		
+		scrollView=new ScrollView(this);
+		linearLayout.addView(scrollView);
+		
+		subLinearLayout=new LinearLayout(this);
+		subLinearLayout.setOrientation(LinearLayout.VERTICAL);
+		
+		scrollView.addView(subLinearLayout);
+		
+		p1=new CustomEditText(this,LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT,6,"P1:");
+		subLinearLayout.addView(p1);
+		i1=new CustomEditText(this,LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT,6,"I1:");
+		subLinearLayout.addView(i1);
+		d1=new CustomEditText(this,LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT,6,"D1:");
+		subLinearLayout.addView(d1);
+		
+		p2=new CustomEditText(this,LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT,6,"P2:");
+		subLinearLayout.addView(p2);
+		i2=new CustomEditText(this,LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT,6,"I2:");
+		subLinearLayout.addView(i2);
+		d2=new CustomEditText(this,LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT,6,"D2:");
+		subLinearLayout.addView(d2);
+		
+		p3=new CustomEditText(this,LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT,6,"P3:");
+		subLinearLayout.addView(p3);
+		i3=new CustomEditText(this,LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT,6,"I3:");
+		subLinearLayout.addView(i3);
+		d3=new CustomEditText(this,LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT,6,"D3:");
+		subLinearLayout.addView(d3);
+		
+		p4=new CustomEditText(this,LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT,6,"P4:");
+		subLinearLayout.addView(p4);
+		i4=new CustomEditText(this,LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT,6,"I4:");
+		subLinearLayout.addView(i4);
+		d4=new CustomEditText(this,LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT,6,"D4:");
+		subLinearLayout.addView(d4);
+		
+		
+	}
+
+}

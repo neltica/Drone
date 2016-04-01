@@ -1,0 +1,186 @@
+package com.example.controller3;
+
+import java.io.DataInputStream;
+import java.io.DataOutputStream;
+import java.io.IOException;
+import java.net.Socket;
+import java.net.UnknownHostException;
+
+import android.util.Log;
+
+public class SocketClass extends Thread{
+	
+	
+	private static Socket socket=null;
+	private static SocketClass socketClass=null;
+	private final int SENDFLAG=0;
+	private final int RECVFLAG=1;
+	private final int STOPFLAG=2;
+	private static int flag;
+	private static String ip;
+	private static int port;
+	private byte[] buffer;
+	private DataInputStream dataInputStream;
+	private DataOutputStream dataOutputStream;
+	
+	
+	private SocketClass()
+	{
+		start();
+	}
+	
+	public static SocketClass getInstance(String _ip,int _port)
+	{
+		ip=_ip;
+		port=_port;
+		if(socketClass==null)
+		{
+			socketClass=new SocketClass();
+		}
+		return socketClass;
+		
+	}
+	
+	public static SocketClass getInstance()
+	{
+		if(socketClass==null)
+		{
+			socketClass=new SocketClass();
+		}
+		return socketClass;
+		
+	}
+	
+	public void write(byte[] _buffer)
+	{
+		buffer=_buffer;
+		flag=SENDFLAG;
+		notifying();
+		while(true)
+		{
+			if(getState()==Thread.State.WAITING)
+			{
+				break;
+			}
+		}
+	}
+	
+	public byte[] recv()
+	{
+		buffer=new byte[1024];
+		flag=RECVFLAG;
+		notifying();
+		while(true)
+		{
+			if(getState()==Thread.State.WAITING)
+			{
+				break;
+			}
+		}
+		return buffer;
+	}
+	public void threadStop()
+	{
+		flag=STOPFLAG;
+		notify();
+		while(true)
+		{
+			if(getState()==Thread.State.WAITING)
+			{
+				break;
+			}
+		}
+	}
+	
+	@Override
+	public void run() {
+		// TODO Auto-generated method stub
+		super.run();
+		
+		try {
+			socket=new Socket(ip,port);
+		} catch (UnknownHostException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			dataInputStream=new DataInputStream(socket.getInputStream());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		try {
+			dataOutputStream=new DataOutputStream(socket.getOutputStream());
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		while (true) {
+			waitting();
+			switch (flag) {
+			case SENDFLAG:
+				try {
+					dataOutputStream.write(buffer);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			case RECVFLAG:
+				try {
+					dataInputStream.read(buffer);
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				break;
+			case STOPFLAG:
+				Log.i("stopFlag", "stopFlag");
+				try {
+					dataInputStream.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				try {
+					dataOutputStream.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				try {
+					socket.close();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				//socketClass=null;
+				return ;
+			}
+			
+			
+		}
+	}
+	
+	public synchronized void waitting()
+	{
+		try {
+			wait();
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public synchronized void notifying()
+	{
+		notify();
+	}
+
+}
