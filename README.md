@@ -1,6 +1,6 @@
 # Drone
 ##Summary
-##methodology
+##Methodology
 ##Environment
 ##Develop Tools
 ##Language
