@@ -21,6 +21,7 @@
 >* Java
 >* C++
 
-##Framework
+##SDK
+>* Android SDK v.23
 ##Implementation
 
