@@ -23,5 +23,6 @@
 
 ##SDK
 >* Android SDK v.23
+
 ##Implementation
 
