@@ -46,3 +46,6 @@
 >* Android SDK v.23
 
 ##Implementation
+
+##Video
+>* 2ch Test : https://youtu.be/YCUaSBQO8sU
